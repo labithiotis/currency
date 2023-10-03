@@ -1,0 +1,19 @@
+name: Currency Fetcher
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+jobs:
+  n8n_latest_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update rates
+        run: |
+          wget https://api.freecurrencyapi.com/v1/latest?apikey=${{ secrets.FREE_CURRENCY_API_KEY }} -O rates.json
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git diff --quiet || (git add rates.json && git commit -m "chore: update rates")
+          git push
