@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Update rates
         run: |
-          wget https://api.freecurrencyapi.com/v1/latest?apikey=${{ secrets.FREE_CURRENCY_API_KEY }} -O rates.json
+          wget http://api.exchangeratesapi.io/v1/latest?access_key=${{ secrets.EXCHANGE_RATES_API_KEY }} -O rates.json
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git diff --quiet || (git add rates.json && git commit -m "chore: update rates")
